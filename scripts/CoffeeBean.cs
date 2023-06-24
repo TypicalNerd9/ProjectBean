@@ -9,6 +9,6 @@ public partial class CoffeeBean : Bean
 
     public override void OnUse(CharacterBody2D characterBody)
     {
-
+        base.OnUse(characterBody);
     }
 }

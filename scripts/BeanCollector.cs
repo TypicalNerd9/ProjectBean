@@ -24,7 +24,7 @@ public partial class BeanCollector : Area2D
 			global.BeansDictionary.Values.CopyTo(BeanArray, 0);
 			_heldBean = BeanArray[GD.Randi() % global.BeansDictionary.Count];
 		}
-		_heldBean.Init();
+		if (!_heldBean.HasBeenInitialized) _heldBean.Init();
 		Sprite2D beanSprite = GetNode<Sprite2D>("BeanSprite");
 		beanSprite.Texture = (Texture2D) _heldBean.BeanTexture;
 	}
@@ -38,17 +38,8 @@ public partial class BeanCollector : Area2D
     {
 		if (body is CharacterBody2D)
 		{
-			GD.Print("BEAN COLLECTED");
-			Global global = GetNode<Global>("/root/Global");
-			for (int i = 0; i < global.BeanInventory.Length; i++)
-            {
-				if (global.BeanInventory[i] == null)
-                {
-					global.BeanInventory[i] = _heldBean;
-					QueueFree();
-					break;
-                }
-            }
+			_heldBean.IncrementCount();
+			QueueFree();
 		}
 
 

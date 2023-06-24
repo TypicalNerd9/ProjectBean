@@ -9,6 +9,6 @@ public partial class JellyBean : Bean
 
     public override void OnUse(CharacterBody2D characterBody)
     {
-
+        base.OnUse(characterBody);
     }
 }

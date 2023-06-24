@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://scripts/Global.cs" id="1_x7gk3"]
 [ext_resource type="PackedScene" uid="uid://lqakudqrt1ro" path="res://level.tscn" id="2_qucev"]
 [ext_resource type="PackedScene" uid="uid://durx1r8dsqb4h" path="res://princess_player.tscn" id="2_rqpp7"]
-[ext_resource type="PackedScene" uid="uid://coyfaeaqiiiaj" path="res://beanstalk.tscn" id="3_8jxgy"]
 [ext_resource type="PackedScene" uid="uid://bj5s62byywbnd" path="res://bean_collector.tscn" id="5_gygs2"]
+[ext_resource type="PackedScene" uid="uid://b2kbh6b7tflti" path="res://ui.tscn" id="6_hra6a"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_x7gk3")
@@ -14,10 +14,9 @@ script = ExtResource("1_x7gk3")
 [node name="PrincessPlayer" parent="." instance=ExtResource("2_rqpp7")]
 position = Vector2(428, 7)
 
-[node name="Beanstalk" parent="." instance=ExtResource("3_8jxgy")]
-position = Vector2(620, 511)
-
 [node name="BeanCollector" parent="." instance=ExtResource("5_gygs2")]
 position = Vector2(127, 494)
 IsHoldingSpecificBean = true
 SpecificBean = "gold"
+
+[node name="UI" parent="." instance=ExtResource("6_hra6a")]

@@ -34,27 +34,60 @@ public partial class princess_player : CharacterBody2D
 		if (Input.IsActionJustPressed("use_bean1"))
         {
 			Global global = GetNode<Global>("/root/Global");
-			if (global.BeanInventory[0] != null)
+			Bean bean = global.BeansDictionary["gold"];
+			if (bean != null && bean.Count > 0)
             {
-				global.BeanInventory[0].OnUse((CharacterBody2D)this);
+				bean.OnUse((CharacterBody2D)this);
 			}
 		}
 
 		if (Input.IsActionJustPressed("use_bean2"))
 		{
 			Global global = GetNode<Global>("/root/Global");
-			if (global.BeanInventory[1] != null)
+			Bean bean = global.BeansDictionary["coffee"];
+			if (bean != null && bean.Count > 0)
 			{
-				global.BeanInventory[1].OnUse((CharacterBody2D)this);
+				bean.OnUse((CharacterBody2D)this);
 			}
 		}
 
 		if (Input.IsActionJustPressed("use_bean3"))
 		{
 			Global global = GetNode<Global>("/root/Global");
-			if (global.BeanInventory[2] != null)
+			Bean bean = global.BeansDictionary["baked"];
+			if (bean != null && bean.Count > 0)
 			{
-				global.BeanInventory[2].OnUse((CharacterBody2D)this);
+				bean.OnUse((CharacterBody2D)this);
+			}
+		}
+
+		if (Input.IsActionJustPressed("use_bean4"))
+		{
+			Global global = GetNode<Global>("/root/Global");
+			Bean bean = global.BeansDictionary["jelly"];
+			if (bean != null && bean.Count > 0)
+			{
+				bean.OnUse((CharacterBody2D)this);
+			}
+		}
+
+		if (Input.IsActionJustPressed("use_bean5"))
+		{
+			Global global = GetNode<Global>("/root/Global");
+			Bean bean = global.BeansDictionary["natto"];
+			if (bean != null && bean.Count > 0)
+			{
+				bean.OnUse((CharacterBody2D)this);
+			}
+		}
+
+		if (Input.IsActionJustPressed("use_bean6"))
+		{
+			Global global = GetNode<Global>("/root/Global");
+			Bean bean = global.BeansDictionary["chickpea"];
+			if (bean != null && bean.Count > 0)
+			{
+				bean.OnUse((CharacterBody2D)this);
 			}
 		}
 

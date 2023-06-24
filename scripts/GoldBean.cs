@@ -15,7 +15,7 @@ public partial class GoldBean : Bean
     }
     public override void OnUse(CharacterBody2D characterBody)
     {
-        GD.Print(characterBody.Owner.Name);
+        base.OnUse(characterBody);
         Node2D instance = _beanstalkScene.Instantiate<Node2D>();
 
         instance.Position = characterBody.Position + new Vector2(0, 30);
