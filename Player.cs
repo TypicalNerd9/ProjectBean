@@ -27,11 +27,11 @@ public partial class Player : Area2D
 			animatedSprite.Stop();
         }
 
-		Position += new Vector2(velocityX * (float)delta, Position.Y);
-		Position = new Vector2(
-			Mathf.Clamp(Position.X, 0, ScreenSize.X),
-			Mathf.Clamp(Position.Y, 0, ScreenSize.Y)
-		);
+		//Position += new Vector2(velocityX * (float)delta, Position.Y);
+		//Position = new Vector2(
+			//Mathf.Clamp(Position.X, 0, ScreenSize.X),
+			//Mathf.Clamp(Position.Y, 0, ScreenSize.Y)
+		//);
 
 	}
 }

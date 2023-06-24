@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://durx1r8dsqb4h"]
+
+[ext_resource type="Script" path="res://scripts/princess_player.cs" id="1_q6r1m"]
+[ext_resource type="Texture2D" uid="uid://cdbgl2mbfmpeu" path="res://assets/Princess (1).png" id="2_4r37o"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5nof2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4r37o")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nne2h"]
+radius = 12.0
+height = 58.0
+
+[node name="PrincessPlayer" type="CharacterBody2D"]
+script = ExtResource("1_q6r1m")
+Speed = 150.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5nof2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_nne2h")

@@ -1,0 +1,631 @@
+[gd_scene load_steps=8 format=3 uid="uid://coyfaeaqiiiaj"]
+
+[ext_resource type="Texture2D" uid="uid://0bw4tmghilr6" path="res://assets/Beanstalk.png" id="1_0bw24"]
+[ext_resource type="Script" path="res://scripts/beanstalk.cs" id="1_42qn8"]
+[ext_resource type="Texture2D" uid="uid://ccjgwbaxq75n" path="res://assets/BeanstalkPlatform.png" id="2_77mlc"]
+
+[sub_resource type="Animation" id="Animation_1b8xe"]
+resource_name = "grow"
+length = 4.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-1, -26), Vector2(0, -73), Vector2(-1, -122), Vector2(1, -202), Vector2(0, -233), Vector2(1, -287), Vector2(-1, -358), Vector2(-1, -394), Vector2(-1, -456), Vector2(1, -496)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LeafPlatformLeft:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LeafPlatformRight:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.75, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(-1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("LeafPlatformLeft2:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1, 1.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("LeafPlatformRight2:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1.25, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(-1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("LeafPlatformLeft3:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1.5, 1.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("LeafPlatformRight3:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(1.75, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(-1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("LeafPlatformLeft4:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(2, 2.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("LeafPlatformRight4:scale")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(2.25, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(-1, 1)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("LeafPlatformLeft5:scale")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(2.5, 2.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("LeafPlatformRight5:scale")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(2.75, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(-1, 1)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("LeafPlatformLeft6:scale")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(3, 3.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("LeafPlatformRight6:scale")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(3.25, 3.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(-1, 1)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("LeafPlatformLeft7:scale")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(3.5, 3.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("LeafPlatformRight7:scale")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(3.75, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(-1, 1)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("LeafPlatformLeft8:scale")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(4, 4.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_llhnv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 229)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LeafPlatformLeft:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LeafPlatformRight:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("LeafPlatformLeft2:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("LeafPlatformRight2:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("LeafPlatformLeft3:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("LeafPlatformRight3:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("LeafPlatformLeft4:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("LeafPlatformRight4:scale")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("LeafPlatformLeft5:scale")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("LeafPlatformRight5:scale")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("LeafPlatformLeft6:scale")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("LeafPlatformRight6:scale")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("LeafPlatformLeft7:scale")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("LeafPlatformRight7:scale")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("LeafPlatformLeft8:scale")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jxvek"]
+_data = {
+"RESET": SubResource("Animation_llhnv"),
+"grow": SubResource("Animation_1b8xe")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cui8g"]
+radius = 25.1794
+
+[node name="Beanstalk" type="Node2D"]
+position = Vector2(0, -2)
+script = ExtResource("1_42qn8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jxvek")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -255)
+texture = ExtResource("1_0bw24")
+hframes = 10
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, 229)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_cui8g")
+
+[node name="LeafPlatformLeft" type="Sprite2D" parent="."]
+position = Vector2(-29, -21)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformLeft"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformLeft/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformLeft2" type="Sprite2D" parent="."]
+position = Vector2(-33, -83)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformLeft2"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformLeft2/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformLeft3" type="Sprite2D" parent="."]
+position = Vector2(-32, -143)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformLeft3"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformLeft3/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformLeft4" type="Sprite2D" parent="."]
+position = Vector2(-31, -206)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformLeft4"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformLeft4/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformLeft5" type="Sprite2D" parent="."]
+position = Vector2(-31, -270)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformLeft5"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformLeft5/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformLeft6" type="Sprite2D" parent="."]
+position = Vector2(-33, -336)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformLeft6"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformLeft6/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformLeft7" type="Sprite2D" parent="."]
+position = Vector2(-32, -404)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformLeft7"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformLeft7/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformLeft8" type="Sprite2D" parent="."]
+position = Vector2(-32, -463)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformLeft8"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformLeft8/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformRight" type="Sprite2D" parent="."]
+position = Vector2(35, -51)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformRight"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformRight/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformRight2" type="Sprite2D" parent="."]
+position = Vector2(35, -111)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformRight2"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformRight2/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformRight3" type="Sprite2D" parent="."]
+position = Vector2(33, -177)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformRight3"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformRight3/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformRight4" type="Sprite2D" parent="."]
+position = Vector2(34, -241)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformRight4"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformRight4/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformRight5" type="Sprite2D" parent="."]
+position = Vector2(29, -305)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformRight5"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformRight5/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformRight6" type="Sprite2D" parent="."]
+position = Vector2(34, -369)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformRight6"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformRight6/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true
+
+[node name="LeafPlatformRight7" type="Sprite2D" parent="."]
+position = Vector2(33, -433)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_77mlc")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeafPlatformRight7"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeafPlatformRight7/StaticBody2D"]
+polygon = PackedVector2Array(-26, -22, -25, -3, 24, 4, 25, -8, 2, -13, -21, -13)
+one_way_collision = true

@@ -1,8 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://dhs2fd1sq0yuf"]
+[gd_scene load_steps=6 format=3 uid="uid://bw5de5u6jp08u"]
 
-[ext_resource type="PackedScene" uid="uid://ons0frdj6wna" path="res://Player.tscn" id="1_wndye"]
+[ext_resource type="Script" path="res://scripts/Global.cs" id="1_x7gk3"]
+[ext_resource type="PackedScene" uid="uid://lqakudqrt1ro" path="res://level.tscn" id="2_qucev"]
+[ext_resource type="PackedScene" uid="uid://durx1r8dsqb4h" path="res://princess_player.tscn" id="2_rqpp7"]
+[ext_resource type="PackedScene" uid="uid://coyfaeaqiiiaj" path="res://beanstalk.tscn" id="3_8jxgy"]
+[ext_resource type="PackedScene" uid="uid://bj5s62byywbnd" path="res://bean_collector.tscn" id="5_gygs2"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_x7gk3")
 
-[node name="Player" parent="." instance=ExtResource("1_wndye")]
-position = Vector2(520, 379)
+[node name="Level" parent="." instance=ExtResource("2_qucev")]
+
+[node name="PrincessPlayer" parent="." instance=ExtResource("2_rqpp7")]
+position = Vector2(428, 7)
+
+[node name="Beanstalk" parent="." instance=ExtResource("3_8jxgy")]
+position = Vector2(620, 511)
+
+[node name="BeanCollector" parent="." instance=ExtResource("5_gygs2")]
+position = Vector2(127, 494)
+IsHoldingSpecificBean = true
+SpecificBean = "gold"
