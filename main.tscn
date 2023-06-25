@@ -1,22 +1,59 @@
-[gd_scene load_steps=6 format=3 uid="uid://bw5de5u6jp08u"]
+[gd_scene load_steps=10 format=3 uid="uid://bw5de5u6jp08u"]
 
 [ext_resource type="Script" path="res://scripts/Global.cs" id="1_x7gk3"]
-[ext_resource type="PackedScene" uid="uid://lqakudqrt1ro" path="res://level.tscn" id="2_qucev"]
 [ext_resource type="PackedScene" uid="uid://durx1r8dsqb4h" path="res://princess_player.tscn" id="2_rqpp7"]
+[ext_resource type="AudioStream" uid="uid://c0slbjmoiwjvo" path="res://assets/JumpSFX.ogg" id="3_hphgj"]
+[ext_resource type="AudioStream" uid="uid://cct4ijsepxyue" path="res://assets/BounceSFX.ogg" id="4_rwfh1"]
 [ext_resource type="PackedScene" uid="uid://bj5s62byywbnd" path="res://bean_collector.tscn" id="5_gygs2"]
+[ext_resource type="AudioStream" uid="uid://b3qwstbtk8nai" path="res://assets/FallSFX.ogg" id="5_o3f04"]
+[ext_resource type="PackedScene" uid="uid://c174nfsb5ehig" path="res://levels/dungeon_level.tscn" id="5_u0ydt"]
 [ext_resource type="PackedScene" uid="uid://b2kbh6b7tflti" path="res://ui.tscn" id="6_hra6a"]
+[ext_resource type="Script" path="res://scripts/CameraHandler.cs" id="6_rxqq0"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_x7gk3")
 
-[node name="Level" parent="." instance=ExtResource("2_qucev")]
-
 [node name="PrincessPlayer" parent="." instance=ExtResource("2_rqpp7")]
-position = Vector2(428, 7)
+position = Vector2(-233, 237)
+floor_max_angle = 0.459022
+JumpHorizontalVelocity = 600.0
+JumpVerticalVelocity = 800.0
+MaxJumpChargeTime = 3
+JumpPowerLevel1 = Vector2(0.25, 0.475)
+JumpPowerLevel2 = Vector2(0.35, 0.6)
+JumpPowerLevel3 = Vector2(0.45, 0.8)
+metadata/_edit_group_ = true
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="PrincessPlayer"]
+scale = Vector2(1.55, 3.1)
+
+[node name="JumpSFXPlayer" type="AudioStreamPlayer2D" parent="PrincessPlayer"]
+stream = ExtResource("3_hphgj")
+
+[node name="BounceSFXPlayer" type="AudioStreamPlayer2D" parent="PrincessPlayer"]
+stream = ExtResource("4_rwfh1")
+
+[node name="FallSFXPlayer" type="AudioStreamPlayer2D" parent="PrincessPlayer"]
+stream = ExtResource("5_o3f04")
 
 [node name="BeanCollector" parent="." instance=ExtResource("5_gygs2")]
-position = Vector2(127, 494)
+position = Vector2(-356, -195)
 IsHoldingSpecificBean = true
 SpecificBean = "gold"
 
-[node name="UI" parent="." instance=ExtResource("6_hra6a")]
+[node name="DungeonLevel" parent="." instance=ExtResource("5_u0ydt")]
+z_index = -1
+position = Vector2(-500, -301)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+script = ExtResource("6_rxqq0")
+OffsetAmount = 500
+metadata/_edit_lock_ = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource("6_hra6a")]
+metadata/_edit_lock_ = true
+
+[connection signal="screen_exited" from="PrincessPlayer/VisibleOnScreenNotifier2D" to="PrincessPlayer" method="OnLeaveCamera"]

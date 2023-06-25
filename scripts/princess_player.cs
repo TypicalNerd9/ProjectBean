@@ -13,30 +13,44 @@ public partial class princess_player : CharacterBody2D
 	public float JumpVerticalVelocity = 400.0f;
 	[Export]
 	public int MaxJumpChargeTime = 5;
-
+	[Export]
+	public Vector2 JumpPowerLevel1 = new Vector2(0.1f, 0.1f);
+	[Export]
+	public Vector2 JumpPowerLevel2 = new Vector2(0.25f, 0.25f);
+	[Export]
+	public Vector2 JumpPowerLevel3 = new Vector2(0.45f, 0.60f);
+	[Export]
+	public Vector2 JumpPowerLevel4 = new Vector2(0.6f, 0.80f);
+	[Export]
+	public Vector2 JumpPowerLevel5 = new Vector2(0.75f, 1f);
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
 	private double JumpChargeTime = 0;
 	private bool IsChargingJump = false;
 	private bool IsFacingRight = true;
+	private bool IsJumping = false;
 	private AnimatedSprite2D animatedSprite2D;
+	private AudioStreamPlayer2D jumpSFXPlayer, bounceSFXPlayer, fallSFXPlayer;
 
     public override void _Ready()
     {
         base._Ready();
 		animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-    }
+		jumpSFXPlayer = GetNode<AudioStreamPlayer2D>("JumpSFXPlayer");
+		bounceSFXPlayer = GetNode<AudioStreamPlayer2D>("BounceSFXPlayer");
+		fallSFXPlayer = GetNode<AudioStreamPlayer2D>("FallSFXPlayer");
+	}
 
 
 	public override void _PhysicsProcess(double delta)
 	{
 		if (Input.IsActionJustPressed("use_bean1"))
-        {
+		{
 			Global global = GetNode<Global>("/root/Global");
 			Bean bean = global.BeansDictionary["gold"];
 			if (bean != null && bean.Count > 0)
-            {
+			{
 				bean.OnUse((CharacterBody2D)this);
 			}
 		}
@@ -104,7 +118,7 @@ public partial class princess_player : CharacterBody2D
 		{
 			IsChargingJump = true;
 			Velocity = Vector2.Zero;
-
+			animatedSprite2D.Play("charge_jump");
 			MoveAndSlide();
 			return;
 		}
@@ -119,15 +133,54 @@ public partial class princess_player : CharacterBody2D
 		{
 			GD.Print(JumpChargeTime);
 			IsChargingJump = false;
-			velocity.Y -= (JumpVerticalVelocity * (float)Mathf.Clamp(JumpChargeTime, 0, MaxJumpChargeTime));
-			velocity.X += (IsFacingRight ? 1 : -1) * (JumpHorizontalVelocity * (float)Mathf.Clamp(JumpChargeTime, 0, MaxJumpChargeTime));
+			IsJumping = true;
+			animatedSprite2D.Play("jump");
+			float JumpChargeTimeSegment = MaxJumpChargeTime / 5.0f;
+			float ActualJumpVerticalVelocity = JumpVerticalVelocity;
+			float ActualJumpHorizontalVelocity = JumpHorizontalVelocity;
+			if (JumpChargeTime > 0 && JumpChargeTime < JumpChargeTimeSegment)
+            {
+				GD.Print("POWER LEVEL 1");
+				ActualJumpHorizontalVelocity *= JumpPowerLevel1.X;
+				ActualJumpVerticalVelocity *= JumpPowerLevel1.Y;
+            } else if (JumpChargeTime > JumpChargeTimeSegment && JumpChargeTime < JumpChargeTimeSegment*2)
+			{
+				GD.Print("POWER LEVEL 2");
+				ActualJumpHorizontalVelocity *= JumpPowerLevel2.X;
+				ActualJumpVerticalVelocity *= JumpPowerLevel2.Y;
+			}
+			else if (JumpChargeTime > JumpChargeTimeSegment * 2 && JumpChargeTime < JumpChargeTimeSegment * 3)
+			{
+				GD.Print("POWER LEVEL 3");
+				ActualJumpHorizontalVelocity *= JumpPowerLevel3.X;
+				ActualJumpVerticalVelocity *= JumpPowerLevel3.Y;
+			}
+			else if (JumpChargeTime > JumpChargeTimeSegment * 3 && JumpChargeTime < JumpChargeTimeSegment * 4)
+			{
+				GD.Print("POWER LEVEL 4");
+				ActualJumpHorizontalVelocity *= JumpPowerLevel4.X;
+				ActualJumpVerticalVelocity *= JumpPowerLevel4.Y;
+			}
+			else if (JumpChargeTime > JumpChargeTimeSegment * 4 && JumpChargeTime < JumpChargeTimeSegment * 5)
+			{
+				GD.Print("POWER LEVEL 5");
+				ActualJumpHorizontalVelocity *= JumpPowerLevel5.X;
+				ActualJumpVerticalVelocity *= JumpPowerLevel5.Y;
+			}
+			velocity.Y -= ActualJumpVerticalVelocity;
+			velocity.X += (IsFacingRight ? 1 : -1) * (ActualJumpHorizontalVelocity);
+			//velocity.Y -= (JumpVerticalVelocity * (float)Mathf.Clamp(JumpChargeTime, 0, MaxJumpChargeTime));
+			//velocity.X += (IsFacingRight ? 1 : -1) * (JumpHorizontalVelocity * (float)Mathf.Clamp(JumpChargeTime, 0, MaxJumpChargeTime));
 			JumpChargeTime = 0;
+			jumpSFXPlayer.Play();
 		}
 
-		if (IsChargingJump && JumpChargeTime < 2)
+		if (IsChargingJump && JumpChargeTime < MaxJumpChargeTime)
 		{
 			JumpChargeTime += delta;
 		}
+
+		
 
 		
 		// Get the horizontal input direction and handle the movement/deceleration.
@@ -153,7 +206,36 @@ public partial class princess_player : CharacterBody2D
 		if (IsOnWallOnly() && !IsOnFloor())
 
 		{
-			Velocity = velocity.Bounce(GetWallNormal()) * 0.7f;
+			GD.Print(GetWallNormal());
+			if (GetWallNormal().Y > -0.4f && GetWallNormal().Y < 0.4f)
+			{
+				Velocity = velocity.Bounce(GetWallNormal()) * 0.7f;
+				bounceSFXPlayer.Play();
+			}
+		}
+		if (IsOnFloor() && IsJumping)
+		{
+			animatedSprite2D.Play("idle");
+			IsJumping = false;
+			if (velocity.Y > 675) fallSFXPlayer.Play();
 		}
 	}
+
+	public void OnLeaveCamera()
+    {
+		CameraHandler CameraHandler = GetNode<CameraHandler>("/root/Main/Camera2D");
+		if (CameraHandler != null)
+        {
+			GD.Print("Camera: " + CameraHandler.Position);
+			GD.Print("Character: " + Position);
+			if (CameraHandler.Position.Y < Position.Y)
+            {
+				CameraHandler.MoveCamera(false);
+
+			} else
+            {
+				CameraHandler.MoveCamera(true);
+			}
+        }
+    }
 }
