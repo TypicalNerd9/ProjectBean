@@ -12,17 +12,18 @@ public abstract partial class Bean : GodotObject
 
     public Label CounterLabel { get; set; }
 
-    public Bean(String Name, Node MainNode, String TexturePath)
+    public Bean(String Name, Node MainNode, String TexturePath, int Count)
     {
         this.Name = Name;
         this.MainNode = MainNode;
         this.TexturePath = TexturePath;
-        this.Count = 0;
+        this.Count = Count;
+        BeanTexture = GD.Load<Texture>(TexturePath);
     }
 
     public virtual void Init()
     {
-        BeanTexture = GD.Load<Texture>(TexturePath);
+        
         HasBeenInitialized = true;
     }
     public virtual void OnUse(CharacterBody2D characterBody)

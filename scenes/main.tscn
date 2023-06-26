@@ -1,0 +1,67 @@
+[gd_scene load_steps=11 format=3 uid="uid://b3bg08k5eiatx"]
+
+[ext_resource type="Script" path="res://scripts/Global.cs" id="1_hetnc"]
+[ext_resource type="PackedScene" uid="uid://durx1r8dsqb4h" path="res://scenes/princess_player.tscn" id="2_kejhn"]
+[ext_resource type="PackedScene" uid="uid://bj5s62byywbnd" path="res://scenes/bean_collector.tscn" id="3_uaif0"]
+[ext_resource type="PackedScene" uid="uid://c174nfsb5ehig" path="res://levels/dungeon_level.tscn" id="4_jxkqe"]
+[ext_resource type="Script" path="res://scripts/CameraHandler.cs" id="5_1ttju"]
+[ext_resource type="PackedScene" uid="uid://dj7p5q15w4tlh" path="res://scenes/pause_menu.tscn" id="5_r61ci"]
+[ext_resource type="PackedScene" uid="uid://dsi4gue82mntj" path="res://scenes/win_menu.tscn" id="6_l3n78"]
+[ext_resource type="PackedScene" uid="uid://ddd0epld4u4r1" path="res://scenes/ui.tscn" id="6_s43fo"]
+[ext_resource type="AudioStream" uid="uid://blwufct60itlq" path="res://assets/ProjectBeanMusic.ogg" id="7_uqif7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6pp17"]
+size = Vector2(1061, 379)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_hetnc")
+
+[node name="DungeonLevel" parent="." instance=ExtResource("4_jxkqe")]
+z_index = -1
+position = Vector2(-500, -301)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+script = ExtResource("5_1ttju")
+OffsetAmount = 500
+metadata/_edit_lock_ = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource("6_s43fo")]
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("5_r61ci")]
+visible = false
+
+[node name="WinMenu" parent="CanvasLayer" instance=ExtResource("6_l3n78")]
+visible = false
+
+[node name="PrincessPlayer" parent="." instance=ExtResource("2_kejhn")]
+z_index = 2
+position = Vector2(-271, 237)
+
+[node name="BeanCollector" parent="." instance=ExtResource("3_uaif0")]
+position = Vector2(-355, -190)
+IsHoldingSpecificBean = true
+SpecificBean = "gold"
+
+[node name="BeanCollector2" parent="." instance=ExtResource("3_uaif0")]
+position = Vector2(-306, -2089)
+IsHoldingSpecificBean = true
+SpecificBean = "gold"
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("7_uqif7")
+pitch_scale = 0.75
+autoplay = true
+bus = &"New Bus"
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(-85, -2026)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(68, -1901)
+shape = SubResource("RectangleShape2D_6pp17")
+
+[connection signal="body_entered" from="Area2D" to="PrincessPlayer" method="OnPlayerWin"]

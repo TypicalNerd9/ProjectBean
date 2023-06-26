@@ -14,8 +14,9 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 6
 
-[node name="BeanName" type="Label" parent="."]
+[node name="BeanIcon" type="TextureRect" parent="."]
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="BeanCount" type="Label" parent="."]
 layout_mode = 2

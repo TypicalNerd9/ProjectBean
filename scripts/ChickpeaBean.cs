@@ -3,7 +3,7 @@ using System;
 
 public partial class ChickpeaBean : Bean
 {
-    public ChickpeaBean(String Name, Node MainNode, String TexturePath) : base(Name, MainNode, TexturePath)
+    public ChickpeaBean(String Name, Node MainNode, String TexturePath, int Count) : base(Name, MainNode, TexturePath, Count)
     {
     }
 

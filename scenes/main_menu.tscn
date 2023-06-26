@@ -1,0 +1,115 @@
+[gd_scene load_steps=6 format=3 uid="uid://bf7kv2y3qd4y5"]
+
+[ext_resource type="Script" path="res://scenes/MainMenu.cs" id="1_8f4yu"]
+[ext_resource type="Texture2D" uid="uid://dhi7ypc2pvsyb" path="res://assets/MainMenuBackground.png" id="1_p82bw"]
+[ext_resource type="Texture2D" uid="uid://dc64yw0u51idd" path="res://assets/Title.png" id="2_din3p"]
+[ext_resource type="AudioStream" uid="uid://blwufct60itlq" path="res://assets/ProjectBeanMusic.ogg" id="4_cv15w"]
+
+[sub_resource type="Environment" id="Environment_n1rmw"]
+background_mode = 3
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 0.26
+glow_strength = 1.07
+glow_bloom = 0.12
+glow_blend_mode = 0
+glow_hdr_threshold = 0.74
+fog_light_energy = 8.54
+fog_sun_scatter = 1.0
+fog_density = 0.0149
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8f4yu")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_p82bw")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.8
+texture = ExtResource("2_din3p")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2/MarginContainer2"]
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="MarginContainer/VBoxContainer2/MarginContainer2/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Continue"
+
+[node name="NewGameButton" type="Button" parent="MarginContainer/VBoxContainer2/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "New Game
+"
+
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer2/MarginContainer2/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Options
+"
+
+[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer2/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Exit
+"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_n1rmw")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_cv15w")
+pitch_scale = 0.75
+autoplay = true
+bus = &"New Bus"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer2/MarginContainer2/VBoxContainer/ContinueButton" to="." method="OnContinueButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer2/MarginContainer2/VBoxContainer/NewGameButton" to="." method="OnNewGameButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer2/MarginContainer2/VBoxContainer/Options" to="." method="OnOptionsButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer2/MarginContainer2/VBoxContainer/Exit" to="." method="OnExitButtonPressed"]

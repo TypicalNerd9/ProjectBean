@@ -32,22 +32,53 @@ public partial class princess_player : CharacterBody2D
 	private bool IsJumping = false;
 	private AnimatedSprite2D animatedSprite2D;
 	private AudioStreamPlayer2D jumpSFXPlayer, bounceSFXPlayer, fallSFXPlayer;
+	private TextureProgressBar JumpChargeBar;
+	private float JumpChargeTimeSegment;
+	private float JumpChargeBarSegment;
+	private int CurrentPowerLevel = 0;
+	private double JumpTime = 0;
+	private Timer SplatTimer;
+	private Global global;
+	private Control PauseMenu;
 
-    public override void _Ready()
+	public override void _Ready()
     {
         base._Ready();
+		global = GetNode<Global>("/root/Main");
 		animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		jumpSFXPlayer = GetNode<AudioStreamPlayer2D>("JumpSFXPlayer");
 		bounceSFXPlayer = GetNode<AudioStreamPlayer2D>("BounceSFXPlayer");
 		fallSFXPlayer = GetNode<AudioStreamPlayer2D>("FallSFXPlayer");
+		SplatTimer = GetNode<Timer>("SplatTimer");
+		JumpChargeBar = GetNode<TextureProgressBar>("JumpChargeBar");
+		PauseMenu = GetNode<Control>("/root/Main/CanvasLayer/PauseMenu");
+		JumpChargeBar.MaxValue = MaxJumpChargeTime;
+		JumpChargeTimeSegment = MaxJumpChargeTime / 5.0f;
+		JumpChargeBarSegment = MaxJumpChargeTime / 4.0f;
+		
+		
 	}
 
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (Input.IsActionJustPressed("pause"))
+        {
+			if (global.IsPaused)
+            {
+				global.IsPaused = false;
+				PauseMenu.Visible = false;
+				PauseMenu.GetNode<settings_menu>("SettingsMenu").CloseButtonPressed();
+				GetTree().Paused = false;
+            } else
+            {
+				global.IsPaused = true;
+				PauseMenu.Visible = true;
+				GetTree().Paused = true;
+			}
+        }
 		if (Input.IsActionJustPressed("use_bean1"))
 		{
-			Global global = GetNode<Global>("/root/Global");
 			Bean bean = global.BeansDictionary["gold"];
 			if (bean != null && bean.Count > 0)
 			{
@@ -57,7 +88,7 @@ public partial class princess_player : CharacterBody2D
 
 		if (Input.IsActionJustPressed("use_bean2"))
 		{
-			Global global = GetNode<Global>("/root/Global");
+			Global global = GetNode<Global>("/root/Main");
 			Bean bean = global.BeansDictionary["coffee"];
 			if (bean != null && bean.Count > 0)
 			{
@@ -67,7 +98,7 @@ public partial class princess_player : CharacterBody2D
 
 		if (Input.IsActionJustPressed("use_bean3"))
 		{
-			Global global = GetNode<Global>("/root/Global");
+			Global global = GetNode<Global>("/root/Main");
 			Bean bean = global.BeansDictionary["baked"];
 			if (bean != null && bean.Count > 0)
 			{
@@ -77,7 +108,7 @@ public partial class princess_player : CharacterBody2D
 
 		if (Input.IsActionJustPressed("use_bean4"))
 		{
-			Global global = GetNode<Global>("/root/Global");
+			Global global = GetNode<Global>("/root/Main");
 			Bean bean = global.BeansDictionary["jelly"];
 			if (bean != null && bean.Count > 0)
 			{
@@ -87,7 +118,7 @@ public partial class princess_player : CharacterBody2D
 
 		if (Input.IsActionJustPressed("use_bean5"))
 		{
-			Global global = GetNode<Global>("/root/Global");
+			Global global = GetNode<Global>("/root/Main");
 			Bean bean = global.BeansDictionary["natto"];
 			if (bean != null && bean.Count > 0)
 			{
@@ -97,7 +128,7 @@ public partial class princess_player : CharacterBody2D
 
 		if (Input.IsActionJustPressed("use_bean6"))
 		{
-			Global global = GetNode<Global>("/root/Global");
+			Global global = GetNode<Global>("/root/Main");
 			Bean bean = global.BeansDictionary["chickpea"];
 			if (bean != null && bean.Count > 0)
 			{
@@ -114,11 +145,12 @@ public partial class princess_player : CharacterBody2D
 
 		// Handle Jump.
 
-		if (Input.IsActionJustPressed("jump") && IsOnFloor() && !IsChargingJump)
+		if (Input.IsActionJustPressed("jump") && IsOnFloor() && !IsChargingJump && SplatTimer.IsStopped())
 		{
 			IsChargingJump = true;
 			Velocity = Vector2.Zero;
 			animatedSprite2D.Play("charge_jump");
+			JumpChargeBar.Visible = true;
 			MoveAndSlide();
 			return;
 		}
@@ -131,39 +163,34 @@ public partial class princess_player : CharacterBody2D
 
 		if (Input.IsActionJustReleased("jump") && IsOnFloor() && IsChargingJump)
 		{
-			GD.Print(JumpChargeTime);
 			IsChargingJump = false;
 			IsJumping = true;
 			animatedSprite2D.Play("jump");
-			float JumpChargeTimeSegment = MaxJumpChargeTime / 5.0f;
+			JumpChargeBar.Visible = false;
+			JumpChargeBar.Value = 0;
 			float ActualJumpVerticalVelocity = JumpVerticalVelocity;
 			float ActualJumpHorizontalVelocity = JumpHorizontalVelocity;
 			if (JumpChargeTime > 0 && JumpChargeTime < JumpChargeTimeSegment)
             {
-				GD.Print("POWER LEVEL 1");
 				ActualJumpHorizontalVelocity *= JumpPowerLevel1.X;
 				ActualJumpVerticalVelocity *= JumpPowerLevel1.Y;
             } else if (JumpChargeTime > JumpChargeTimeSegment && JumpChargeTime < JumpChargeTimeSegment*2)
 			{
-				GD.Print("POWER LEVEL 2");
 				ActualJumpHorizontalVelocity *= JumpPowerLevel2.X;
 				ActualJumpVerticalVelocity *= JumpPowerLevel2.Y;
 			}
 			else if (JumpChargeTime > JumpChargeTimeSegment * 2 && JumpChargeTime < JumpChargeTimeSegment * 3)
 			{
-				GD.Print("POWER LEVEL 3");
 				ActualJumpHorizontalVelocity *= JumpPowerLevel3.X;
 				ActualJumpVerticalVelocity *= JumpPowerLevel3.Y;
 			}
 			else if (JumpChargeTime > JumpChargeTimeSegment * 3 && JumpChargeTime < JumpChargeTimeSegment * 4)
 			{
-				GD.Print("POWER LEVEL 4");
 				ActualJumpHorizontalVelocity *= JumpPowerLevel4.X;
 				ActualJumpVerticalVelocity *= JumpPowerLevel4.Y;
 			}
-			else if (JumpChargeTime > JumpChargeTimeSegment * 4 && JumpChargeTime < JumpChargeTimeSegment * 5)
+			else if (JumpChargeTime > JumpChargeTimeSegment * 4)
 			{
-				GD.Print("POWER LEVEL 5");
 				ActualJumpHorizontalVelocity *= JumpPowerLevel5.X;
 				ActualJumpVerticalVelocity *= JumpPowerLevel5.Y;
 			}
@@ -173,20 +200,31 @@ public partial class princess_player : CharacterBody2D
 			//velocity.X += (IsFacingRight ? 1 : -1) * (JumpHorizontalVelocity * (float)Mathf.Clamp(JumpChargeTime, 0, MaxJumpChargeTime));
 			JumpChargeTime = 0;
 			jumpSFXPlayer.Play();
+			CurrentPowerLevel = 0;
 		}
 
 		if (IsChargingJump && JumpChargeTime < MaxJumpChargeTime)
 		{
 			JumpChargeTime += delta;
+			if (JumpChargeTime > JumpChargeTimeSegment * CurrentPowerLevel)
+            {
+				JumpChargeBar.Value = JumpChargeBarSegment * CurrentPowerLevel;
+				CurrentPowerLevel++;
+			}
+			
 		}
 
+		if (IsJumping)
+        {
+			JumpTime += delta;
+        }
 		
 
 		
 		// Get the horizontal input direction and handle the movement/deceleration.
 		float velocityX = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
 		
-		if (velocity.Y >= 0 && IsOnFloor() && !IsOnWallOnly() && !IsChargingJump)
+		if (velocity.Y >= 0 && IsOnFloor() && !IsOnWallOnly() && !IsChargingJump && SplatTimer.IsStopped())
 		{
 			if (velocityX != 0)
 			{
@@ -203,10 +241,9 @@ public partial class princess_player : CharacterBody2D
 		Velocity = velocity;
 		
 		MoveAndSlide();
-		if (IsOnWallOnly() && !IsOnFloor())
 
+		if (IsOnWallOnly() && !IsOnFloor())
 		{
-			GD.Print(GetWallNormal());
 			if (GetWallNormal().Y > -0.4f && GetWallNormal().Y < 0.4f)
 			{
 				Velocity = velocity.Bounce(GetWallNormal()) * 0.7f;
@@ -215,9 +252,17 @@ public partial class princess_player : CharacterBody2D
 		}
 		if (IsOnFloor() && IsJumping)
 		{
-			animatedSprite2D.Play("idle");
 			IsJumping = false;
-			if (velocity.Y > 675) fallSFXPlayer.Play();
+			if (JumpTime > 1.3d)
+			{
+				SplatTimer.Start();
+				fallSFXPlayer.Play();
+				animatedSprite2D.Play("splat");
+			} else
+            {
+				animatedSprite2D.Play("idle");
+			}
+			JumpTime = 0;
 		}
 	}
 
@@ -226,8 +271,6 @@ public partial class princess_player : CharacterBody2D
 		CameraHandler CameraHandler = GetNode<CameraHandler>("/root/Main/Camera2D");
 		if (CameraHandler != null)
         {
-			GD.Print("Camera: " + CameraHandler.Position);
-			GD.Print("Character: " + Position);
 			if (CameraHandler.Position.Y < Position.Y)
             {
 				CameraHandler.MoveCamera(false);
@@ -237,5 +280,21 @@ public partial class princess_player : CharacterBody2D
 				CameraHandler.MoveCamera(true);
 			}
         }
+    }
+
+	public void OnSplatTimerElapsed()
+    {
+		animatedSprite2D.Play("idle");
+    }
+
+	public void OnPlayerWin(Node2D body)
+    {
+		if (body is CharacterBody2D)
+		{
+			global.Won = true;
+			Control WinMenu = GetNode<Control>("/root/Main/CanvasLayer/WinMenu");
+			WinMenu.Visible = true;
+			GetTree().Paused = true;
+		}
     }
 }

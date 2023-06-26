@@ -3,7 +3,7 @@ using System;
 
 public partial class CoffeeBean : Bean
 {
-    public CoffeeBean(String Name, Node MainNode, String TexturePath) : base(Name, MainNode, TexturePath)
+    public CoffeeBean(String Name, Node MainNode, String TexturePath, int Count) : base(Name, MainNode, TexturePath, Count)
     {
     }
 

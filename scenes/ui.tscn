@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2kbh6b7tflti"]
+[gd_scene load_steps=2 format=3 uid="uid://ddd0epld4u4r1"]
 
-[ext_resource type="Script" path="res://BeanList.cs" id="1_aw8xm"]
+[ext_resource type="Script" path="res://scripts/BeanList.cs" id="1_8nc52"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -17,4 +17,4 @@ anchor_bottom = 1.0
 offset_right = 102.0
 grow_vertical = 2
 alignment = 1
-script = ExtResource("1_aw8xm")
+script = ExtResource("1_8nc52")

@@ -3,7 +3,7 @@ using System;
 
 public partial class NattoBean : Bean
 {
-    public NattoBean(String Name, Node MainNode, String TexturePath) : base(Name, MainNode, TexturePath)
+    public NattoBean(String Name, Node MainNode, String TexturePath, int Count) : base(Name, MainNode, TexturePath, Count)
     {
     }
 

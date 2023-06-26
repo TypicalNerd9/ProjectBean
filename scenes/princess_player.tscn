@@ -1,0 +1,112 @@
+[gd_scene load_steps=14 format=3 uid="uid://durx1r8dsqb4h"]
+
+[ext_resource type="Script" path="res://scripts/princess_player.cs" id="1_q6r1m"]
+[ext_resource type="Texture2D" uid="uid://wioe14st1y1f" path="res://assets/Princess.png" id="2_ph6t5"]
+[ext_resource type="Texture2D" uid="uid://b82u1qbk6qh3n" path="res://assets/PrincessSplat.png" id="3_8oflm"]
+[ext_resource type="AudioStream" uid="uid://c0slbjmoiwjvo" path="res://assets/JumpSFX.ogg" id="3_exlpg"]
+[ext_resource type="AudioStream" uid="uid://cct4ijsepxyue" path="res://assets/BounceSFX.ogg" id="4_srw2j"]
+[ext_resource type="AudioStream" uid="uid://b3qwstbtk8nai" path="res://assets/FallSFX.ogg" id="5_v02sb"]
+[ext_resource type="AudioStream" uid="uid://bhno4ci2wem21" path="res://assets/PickUpSFX.ogg" id="6_dcecf"]
+[ext_resource type="PackedScene" uid="uid://crssslstu753i" path="res://scenes/jump_charge_bar.tscn" id="7_jt4lx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_torjn"]
+atlas = ExtResource("2_ph6t5")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7vg4"]
+atlas = ExtResource("2_ph6t5")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f40kk"]
+atlas = ExtResource("2_ph6t5")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5nof2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_torjn")
+}],
+"loop": true,
+"name": &"charge_jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7vg4")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f40kk")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_8oflm")
+}],
+"loop": true,
+"name": &"splat",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nne2h"]
+radius = 12.0
+height = 58.0
+
+[node name="PrincessPlayer" type="CharacterBody2D"]
+floor_stop_on_slope = false
+floor_max_angle = 0.352556
+script = ExtResource("1_q6r1m")
+Speed = 150.0
+JumpHorizontalVelocity = 600.0
+JumpVerticalVelocity = 800.0
+MaxJumpChargeTime = 3
+JumpPowerLevel1 = Vector2(0.15, 0.35)
+JumpPowerLevel2 = Vector2(0.25, 0.48)
+JumpPowerLevel3 = Vector2(0.4, 0.55)
+JumpPowerLevel4 = Vector2(0.5, 0.75)
+JumpPowerLevel5 = Vector2(0.6, 0.85)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5nof2")
+animation = &"splat"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_nne2h")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(1.55, 3.1)
+
+[node name="JumpSFXPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_exlpg")
+
+[node name="BounceSFXPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_srw2j")
+
+[node name="FallSFXPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_v02sb")
+
+[node name="PickupSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_dcecf")
+
+[node name="JumpChargeBar" parent="." instance=ExtResource("7_jt4lx")]
+visible = false
+offset_left = -21.0
+offset_top = 33.0
+offset_right = -21.0
+offset_bottom = 33.0
+
+[node name="SplatTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnLeaveCamera"]
+[connection signal="timeout" from="SplatTimer" to="." method="OnSplatTimerElapsed"]
